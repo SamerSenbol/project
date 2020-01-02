@@ -1,5 +1,10 @@
-@foreach ($products as $product)
-    <p>{{ $product->name}}</p>
-    <p>{{ $product->price}}</p>
-    <p>{{ $product->description}}</p>
-@endforeach
+<link href="{{asset('css/bootstrap.min.css')}}" rel="stylesheet">
+
+
+@extends('layouts.index')
+
+@section('center')
+
+<h2 class="text-center">this is the center of the page </h2>
+
+@endsection
