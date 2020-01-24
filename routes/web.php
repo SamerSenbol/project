@@ -15,3 +15,4 @@ Route::get('/', function () {
     return view('test');
 });
 Route::get('products', ["uses"=>"ProductsController@index"]);
+Route::get('product/addToCart/{id}', ['uses'=>'ProductsController@addProductToCart','as'=>'AddToCartProduct']);
