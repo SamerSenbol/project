@@ -5,6 +5,7 @@ use App\Product;
 use Illuminate\Support\Facades\DB;
 
 use Illuminate\Http\Request;
+use App\Cart;
 
 class ProductsController extends Controller
 {
@@ -22,6 +23,20 @@ class ProductsController extends Controller
 
 
     public function addProductToCart(Request $request,$id){
-        print_r($id);
+
+    //        $request->session()->forget("cart");
+    //        $request->session()->flush();
+
+        $prevCart = $request->session()->get('cart');
+        $cart = new Cart($prevCart);
+
+        $product = Product::find($id);
+        $cart->addItem($id,$product);
+        $request->session()->put('cart', $cart);
+
+        //dump($cart);
+
+        return redirect()->route("allProducts");
+    
     }
 }
