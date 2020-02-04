@@ -23,3 +23,10 @@ Route::get('cart', ["uses"=>"ProductsController@showCart", "as"=>"cartproducts"]
 //delete item from cart
 Route::get('product/deleteItemFromCart/{id}',['uses'=>'ProductsController@deleteItemFromCart','as'=>'DeleteItemFromCart']);
 
+//user authentication
+Auth::routes();
+Route::get('/home', 'HomeController@index')->name('home');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
