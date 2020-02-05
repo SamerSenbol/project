@@ -32,4 +32,4 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 //Admin Panal
-Route::get('admin/products',['uses'=>'Admin/AdminProducstController@index','as'=>'AdminDisplayProducts']);
+Route::get('admin/products',['uses'=>'Admin\AdminProductsController@index','as'=>'adminDisplayProducts']);
