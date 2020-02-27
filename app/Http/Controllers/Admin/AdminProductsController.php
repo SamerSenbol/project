@@ -21,6 +21,39 @@ class AdminProductsController extends Controller
     public function createProdcutForm(){
       return view("admin.createProductForm");
   }
+
+  //store new product to database
+  public function sendCreateProductForm(Request $request){
+
+
+    $name =  $request->input('name');
+    $description =  $request->input('description');
+    $type = $request->input('type');
+    $price = $request->input('price');
+
+    Validator::make($request->all(),['image'=>"required|file|image|mimes:jpg,png,jpeg|max:5000"])->validate();
+    $ext =  $request->file("image")->getClientOriginalExtension();
+    $stringImageReFormat = str_replace(" ","",$request->input('name'));
+
+    $imageName = $stringImageReFormat.".".$ext; //blackdress.jpg
+    $imageEncoded = File::get($request->image);
+    Storage::disk('local')->put('public/product_images/'.$imageName, $imageEncoded);
+
+    $newProductArray = array("name"=>$name, "description"=> $description,"image"=> $imageName,"type"=>$type,"price"=>$price);
+
+    $created = DB::table("products")->insert($newProductArray);
+
+
+    if($created){
+        return redirect()->route("adminDisplayProducts");
+    }else{
+       return "Product was not Created";
+
+    }
+
+}
+
+
       //display edit product form
       public function editProductForm($id){
         $product = Product::find($id);
