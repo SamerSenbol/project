@@ -16,6 +16,11 @@ class AdminProductsController extends Controller
 
     }
 
+
+    //display create product form
+    public function createProdcutForm(){
+      return view("admin.createProductForm");
+  }
       //display edit product form
       public function editProductForm($id){
         $product = Product::find($id);

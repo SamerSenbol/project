@@ -45,3 +45,6 @@ Route::post('admin/updateProductImage/{id}', ["uses"=>"Admin\AdminProductsContro
 
 //update product data
 Route::post('admin/updateProduct/{id}', ["uses"=>"Admin\AdminProductsController@updateProduct", "as"=> "adminUpdateProduct"]);
+
+//display create product form
+Route::get('admin/createProductForm', ["uses"=>"Admin\AdminProductsController@createProdcutForm", "as"=> "adminCreateProductForm"]);
