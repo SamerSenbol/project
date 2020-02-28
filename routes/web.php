@@ -51,3 +51,6 @@ Route::get('admin/createProductForm', ["uses"=>"Admin\AdminProductsController@cr
 
 //send new product data to database
 Route::post('admin/sendCreateProductForm/', ["uses"=>"Admin\AdminProductsController@sendCreateProductForm", "as"=> "adminSendCreateProductForm"]);
+
+//delete product
+Route::get('admin/deleteProduct/{id}', ["uses"=>"Admin\AdminProductsController@deleteProduct", "as"=> "adminDeleteProduct"]);
