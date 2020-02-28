@@ -35,6 +35,13 @@ class ProductsController extends Controller
          return view("womenProducts",compact("products"));
      }
 
+     public function search(Request $request){
+
+        $searchText = $request->get('searchText');
+        $products = Product::where('name',"Like",$searchText."%")->paginate(3);
+        return view("allproducts",compact("products"));
+    }
+
     public function addProductToCart(Request $request,$id){
 
     //        $request->session()->forget("cart");

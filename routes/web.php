@@ -16,6 +16,9 @@ Route::get('products/men', ["uses"=>"ProductsController@menProducts", "as"=> "me
 //Women
 Route::get('products/women', ["uses"=>"ProductsController@womenProducts", "as"=> "womenProducts"]);
 
+//search
+Route::get('search', ["uses"=>"ProductsController@search", "as"=> "searchProducts"]);
+
 Route::get('/', function () {
     return view('test');
 });
