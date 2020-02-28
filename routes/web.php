@@ -31,8 +31,8 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-//Admin Panal
-Route::get('admin/products',['uses'=>'Admin\AdminProductsController@index','as'=>'adminDisplayProducts']);
+//Admin Panel
+Route::get('admin/products', ["uses"=>"Admin\AdminProductsController@index", "as"=> "adminDisplayProducts"])->middleware('restrictToAdmin');
 
 //display edit product form
 Route::get('admin/editProductForm/{id}', ["uses"=>"Admin\AdminProductsController@editProductForm", "as"=> "adminEditProductForm"]);
@@ -54,3 +54,14 @@ Route::post('admin/sendCreateProductForm/', ["uses"=>"Admin\AdminProductsControl
 
 //delete product
 Route::get('admin/deleteProduct/{id}', ["uses"=>"Admin\AdminProductsController@deleteProduct", "as"=> "adminDeleteProduct"]);
+
+
+//storage
+Route::get('/testStorage',function(){
+
+    // return "<img src=".Storage::url('product_images/jacket.jpg').">";
+   // return Storage::disk('local')->url('product_images/jacket.jpg');
+   // print_r(Storage::disk("local")->exists("public/product_images/jacket.jpg"));
+  // Storage::delete('public/product_images/jacket.jpg');
+
+});
