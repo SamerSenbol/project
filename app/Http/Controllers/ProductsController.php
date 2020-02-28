@@ -18,10 +18,22 @@ class ProductsController extends Controller
                     1=>["name"=>"Galaxy","category"=>"smart phones","price"=>500],
                     2=>["name"=>"Sony","category"=>"smart phones","price"=>200]];
         */
-        $products = Product::all();
+        $products = Product::paginate(3);
         return view("allproducts",compact("products"));
     }
 
+
+    public function menProducts(){
+
+        $products = DB::table('products')->where('type', "Men")->get();
+         return view("menProducts",compact("products"));
+     }
+ 
+ 
+     public function womenProducts(){
+         $products = DB::table('products')->where('type', "Women")->get();
+         return view("womenProducts",compact("products"));
+     }
 
     public function addProductToCart(Request $request,$id){
 

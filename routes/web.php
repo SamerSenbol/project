@@ -10,6 +10,11 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+//Men
+Route::get('products/men', ["uses"=>"ProductsController@menProducts", "as"=> "menProducts"]);
+
+//Women
+Route::get('products/women', ["uses"=>"ProductsController@womenProducts", "as"=> "womenProducts"]);
 
 Route::get('/', function () {
     return view('test');
