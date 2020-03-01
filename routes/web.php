@@ -31,6 +31,15 @@ Route::get('cart', ["uses"=>"ProductsController@showCart", "as"=>"cartproducts"]
 //delete item from cart
 Route::get('product/deleteItemFromCart/{id}',['uses'=>'ProductsController@deleteItemFromCart','as'=>'DeleteItemFromCart']);
 
+//increase single product in cart
+Route::get('product/increaseSingleProduct/{id}',['uses'=>'ProductsController@increaseSingleProduct','as'=>'IncreaseSingleProduct']);
+
+
+//decrease single product in cart
+Route::get('product/decreaseSingleProduct/{id}',['uses'=>'ProductsController@decreaseSingleProduct','as'=>'DecreaseSingleProduct']);
+
+
+
 //user authentication
 Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');

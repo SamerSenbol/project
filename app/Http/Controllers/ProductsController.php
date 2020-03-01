@@ -94,4 +94,52 @@ class ProductsController extends Controller
 
     }
     
+
+    public function increaseSingleProduct(Request $request,$id){
+
+
+        $prevCart = $request->session()->get('cart');
+        $cart = new Cart($prevCart);
+
+        $product = Product::find($id);
+        $cart->addItem($id,$product);
+        $request->session()->put('cart', $cart);
+
+        //dump($cart);
+
+        return redirect()->route("cartproducts");
+
+
+    }
+    
+    
+
+
+
+
+
+
+       public function decreaseSingleProduct(Request $request,$id){
+
+
+      
+        $prevCart = $request->session()->get('cart');
+        $cart = new Cart($prevCart);
+
+        if( $cart->items[$id]['quantity'] > 1){
+                  $product = Product::find($id);
+                  $cart->items[$id]['quantity'] = $cart->items[$id]['quantity']-1;
+                  $cart->items[$id]['totalSinglePrice'] = $cart->items[$id]['quantity'] *  $product['price'];
+                  $cart->updatePriceAndQunatity();
+              
+                  $request->session()->put('cart', $cart);
+                  
+          }
+
+       
+
+        return redirect()->route("cartproducts");
+
+
+    }
 }
