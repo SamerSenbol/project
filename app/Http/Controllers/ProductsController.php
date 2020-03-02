@@ -143,6 +143,12 @@ class ProductsController extends Controller
 
     }
 
+    public function checkoutProducts(){
+
+        return view('checkoutproducts');
+ 
+     }
+
     public function createOrder(){
         $cart = Session::get('cart');
 

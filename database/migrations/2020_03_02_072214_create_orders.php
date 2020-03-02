@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
 class CreateOrders extends Migration
 {
@@ -14,8 +14,11 @@ class CreateOrders extends Migration
     public function up()
     {
         Schema::create('orders', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->timestamps();
+            $table->increments('order_id');
+            $table->date("date");
+            $table->text("status");
+            $table->date("del_date");
+            $table->decimal("price",8,2);
         });
     }
 
