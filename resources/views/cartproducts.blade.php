@@ -134,41 +134,21 @@
             </div>
             <div class="col-sm-6">
                 <div class="total_area">
-       
+                    <ul>
+
+                        <li>Quantity<span>{{$cartItems->totalQuantity}}</span></li>
+                        <li>Shipping Cost <span>Free</span></li>
+                        <li>Total <span>{{$cartItems->totalPrice}}</span></li>
+                    </ul>
                     <a class="btn btn-default update" href="">Update</a>
-                    
+                    <a class="btn btn-default check_out" href="{{route('checkoutProducts')}}">Check Out</a>
                 </div>
             </div>
         </div>
-
-
-
-
-
-
-      @else
-
-
-                                        <div class="alert alert-danger" role="alert">
-                                          <strong>Please!</strong> <a href="{{route('login') }}">Log in</a> in order to create an order
-                                        </div>
-
-
-
-      @endif
-
-
-
-
-
-
-
     </div>
 </section><!--/#do_action-->
 
 
 @endsection
-
-
 
 

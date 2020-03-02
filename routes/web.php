@@ -39,7 +39,8 @@ Route::get('product/increaseSingleProduct/{id}',['uses'=>'ProductsController@inc
 Route::get('product/decreaseSingleProduct/{id}',['uses'=>'ProductsController@decreaseSingleProduct','as'=>'DecreaseSingleProduct']);
 
 
-
+//create an order
+Route::get('product/createOrder/',['uses'=>'ProductsController@createOrder','as'=>'createOrder']);
 //user authentication
 Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
