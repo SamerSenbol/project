@@ -42,6 +42,9 @@ Route::get('product/decreaseSingleProduct/{id}',['uses'=>'ProductsController@dec
 //checkout page
 Route::get('product/checkoutProducts/',['uses'=>'ProductsController@checkoutProducts','as'=>'checkoutProducts']);
 
+//process checkout page
+Route::post('product/createNewOrder/',['uses'=>'ProductsController@createNewOrder','as'=>'createNewOrder']);
+
 //create an order
 Route::get('product/createOrder/',['uses'=>'ProductsController@createOrder','as'=>'createOrder']);
 
