@@ -45,6 +45,9 @@ Route::get('product/checkoutProducts/',['uses'=>'ProductsController@checkoutProd
 //process checkout page
 Route::post('product/createNewOrder/',['uses'=>'ProductsController@createNewOrder','as'=>'createNewOrder']);
 
+//payment page
+Route::get('payment/paymentpage', ["uses"=> "Payment\PaymentsController@showPaymentPage", 'as'=> 'showPaymentPage']);
+
 //create an order
 Route::get('product/createOrder/',['uses'=>'ProductsController@createOrder','as'=>'createOrder']);
 
