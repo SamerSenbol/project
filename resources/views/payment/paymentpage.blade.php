@@ -65,7 +65,7 @@
     // Configure environment
     env: 'sandbox',
     client: {
-      sandbox: 'YOUR_SANDBOX_CLIENT_ID',
+      sandbox: 'Aa-tjb4Vqr3gaZrCRuJpcDESkw7Fwx98OheWHHQm7OEHVoXYnfaO67StrcBKtb1nP-qvVbqXYDLmTC3t',
       production: 'YOUR_PRODUCTION_CLIENT_ID'
     },
     // Customize button (optional)

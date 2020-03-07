@@ -10,6 +10,9 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+Route::get('/',  ["uses"=>"ProductsController@index", "as"=> "allProducts"]);
+
 //Men
 Route::get('products/men', ["uses"=>"ProductsController@menProducts", "as"=> "menProducts"]);
 
@@ -19,9 +22,9 @@ Route::get('products/women', ["uses"=>"ProductsController@womenProducts", "as"=>
 //search
 Route::get('search', ["uses"=>"ProductsController@search", "as"=> "searchProducts"]);
 
-Route::get('/', function () {
+/* Route::get('/', function () {
     return view('test');
-});
+}); */
 Route::get('products', ["uses"=>"ProductsController@index", "as"=>"allProducts"]);
 Route::get('product/addToCart/{id}', ['uses'=>'ProductsController@addProductToCart','as'=>'AddToCartProduct']);
 
@@ -47,6 +50,10 @@ Route::post('product/createNewOrder/',['uses'=>'ProductsController@createNewOrde
 
 //payment page
 Route::get('payment/paymentpage', ["uses"=> "Payment\PaymentsController@showPaymentPage", 'as'=> 'showPaymentPage']);
+
+//process payment & receipt page
+Route::get('payment/paymentreceipt/{paymentID}/{payerID}', ["uses"=> "Payment\PaymentsController@showPaymentReceipt", 'as'=> 'showPaymentReceipt']);
+
 
 //create an order
 Route::get('product/createOrder/',['uses'=>'ProductsController@createOrder','as'=>'createOrder']);
