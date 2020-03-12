@@ -2,16 +2,19 @@
 
 namespace App\Http\Controllers;
 use App\Product;
+use App\Orders;
+use App\OrderItems;
 use Illuminate\Support\Facades\DB;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Session;
+//use Illuminate\Support\Facades\Session;
 use App\Cart;
+use Session;
 
 class ProductsController extends Controller
 {
     //
-
+ 
     public function index(){
         /*
         $products =[0=>["name"=>"Iphone","category"=>"smart phones","price"=>1000],
@@ -20,6 +23,44 @@ class ProductsController extends Controller
         */
         $products = Product::paginate(3);
         return view("allproducts",compact("products"));
+    } 
+
+    public function saveorder(){
+        if(isset($_POST['checkout'])){
+           // echo "<pre>"; print_r($_POST); die;
+            extract($_POST);
+            if(!empty($ids)){
+$today = date("Y-m-d h:i:s");
+                $order = \DB::table('orders')->insertGetId(array(
+                                    'date'     =>   $today, 
+                                    'price'     =>   $display_total_amount, 
+                                    'name'     =>   $name, 
+                                    'email'     =>   $email, 
+                                    'phone'     =>   $phone, 
+                                    'address'     =>   $address, 
+                                    'zip'     =>   $zip_code, 
+                                    'status'     =>   'Booked', 
+                             )
+                        );
+//echo $order; die;
+                
+                foreach($ids as $i){
+
+             $Added = \DB::table('order_items')->insertGetId(array(
+                                    'item_id'     =>   $i, 
+                                    'order_id'     =>   $order, 
+                                    'item_price'     =>   $price_total[$i], 
+                                    'quantity'     =>   $quantity[$i], 
+                                    'total_price'     =>   $price_total[$i], 
+                                   
+                             )
+                        );
+                }
+            }
+        session()->put('cartids', '');
+        return redirect('cart')->with('status', 'Your order booked Successfully!');
+
+        }
     }
 
 
@@ -47,14 +88,16 @@ class ProductsController extends Controller
     //        $request->session()->forget("cart");
     //        $request->session()->flush();
 
-        $prevCart = $request->session()->get('cart');
-        $cart = new Cart($prevCart);
-
-        $product = Product::find($id);
-        $cart->addItem($id,$product);
-        $request->session()->put('cart', $cart);
-
-        //dump($cart);
+        //Session::set('cartids', $id);
+        
+        $cart = Session::get('cartids');
+        //echo $cart; die;
+        if(empty($cart)){
+            session()->put('cartids', $id);
+        }else{
+            $cart_values = $cart.",".$id;
+             session()->put('cartids', $cart_values);
+        }
 
         return redirect()->route("allProducts");
     
@@ -62,8 +105,9 @@ class ProductsController extends Controller
 
     public function showCart(){
 
-        $cart = Session::get('cart');
-
+        $cart = Session::get('cartids');
+        $cart = Product::whereIn('id', explode(",",$cart))->get();
+        //echo "<pre>"; print_r($cart); die;
         //cart is not empty
         if($cart){
             return view('cartproducts',['cartItems'=> $cart]);
@@ -77,19 +121,12 @@ class ProductsController extends Controller
 
     public function deleteItemFromCart(Request $request,$id){
 
-        $cart = $request->session()->get("cart");
-
-        if(array_key_exists($id,$cart->items)){
-            unset($cart->items[$id]);
-
+        $cart = Session::get('cartids');
+        if(!empty($cart)){
+           $Already = str_replace($id,'', $cart);
+           $Already = trim($Already,",");
+           session()->put('cartids', $Already);
         }
-
-        $prevCart = $request->session()->get("cart");
-        $updatedCart = new Cart($prevCart);
-        $updatedCart->updatePriceAndQunatity();
-
-        $request->session()->put("cart",$updatedCart);
-
         return redirect()->route('cartproducts');
 
     }

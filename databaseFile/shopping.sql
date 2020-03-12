@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 09, 2020 at 06:58 PM
+-- Generation Time: Mar 11, 2020 at 09:08 PM
 -- Server version: 10.4.10-MariaDB
 -- PHP Version: 7.3.12
 
@@ -68,18 +68,25 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 
 CREATE TABLE `orders` (
   `order_id` int(11) NOT NULL,
-  `date` date DEFAULT NULL,
+  `date` datetime DEFAULT current_timestamp(),
   `status` text DEFAULT NULL,
-  `del_date` date DEFAULT NULL,
   `price` float DEFAULT NULL,
-  `first_name` text NOT NULL,
+  `name` text NOT NULL,
   `address` text NOT NULL,
-  `last_name` varchar(50) NOT NULL,
   `phone` int(11) NOT NULL,
-  `zip` int(11) NOT NULL,
-  `email` varchar(50) NOT NULL,
-  `user_id` int(11) NOT NULL
+  `zip` varchar(100) NOT NULL,
+  `email` varchar(50) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `orders`
+--
+
+INSERT INTO `orders` (`order_id`, `date`, `status`, `price`, `name`, `address`, `phone`, `zip`, `email`) VALUES
+(1, '2020-03-11 08:02:38', NULL, 113.9, 'asd', 'sad', 123, 'asd', 'asd@mil.com'),
+(2, '2020-03-11 08:05:08', 'Booked', 113.9, 'asd', 'sad', 123, 'asd', 'asd@mil.com'),
+(3, '2020-03-11 08:05:33', 'Booked', 113.9, 'asd', 'sad', 123, 'asd', 'asd@mil.com'),
+(4, '2020-03-11 08:07:40', 'Booked', 113.9, 'asd', 'sad', 123, 'asd', 'asd@mil.com');
 
 -- --------------------------------------------------------
 
@@ -91,17 +98,22 @@ CREATE TABLE `order_items` (
   `id` int(11) NOT NULL,
   `item_id` int(11) DEFAULT NULL,
   `order_id` int(11) DEFAULT NULL,
-  `item_name` text DEFAULT NULL,
-  `item_price` float DEFAULT NULL
+  `item_price` float DEFAULT NULL,
+  `quantity` int(11) NOT NULL,
+  `total_price` varchar(255) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `order_items`
 --
 
-INSERT INTO `order_items` (`id`, `item_id`, `order_id`, `item_name`, `item_price`) VALUES
-(1, 2, 1, 'women shirt', 23.45),
-(2, 2, 2, 'men shirt', 28.45);
+INSERT INTO `order_items` (`id`, `item_id`, `order_id`, `item_price`, `quantity`, `total_price`) VALUES
+(1, 2, 1, 23.45, 2, '67'),
+(2, 2, 2, 28.45, 2, '67'),
+(3, 1, 3, 46.9, 2, '46.9'),
+(4, 2, 3, 67, 2, '67'),
+(5, 1, 4, 46.9, 2, '46.9'),
+(6, 2, 4, 67, 2, '67');
 
 -- --------------------------------------------------------
 
@@ -195,10 +207,29 @@ ALTER TABLE `migrations`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `orders`
+--
+ALTER TABLE `orders`
+  ADD PRIMARY KEY (`order_id`),
+  ADD KEY `order_id` (`order_id`);
+
+--
+-- Indexes for table `order_items`
+--
+ALTER TABLE `order_items`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `password_resets`
 --
 ALTER TABLE `password_resets`
   ADD KEY `password_resets_email_index` (`email`);
+
+--
+-- Indexes for table `products`
+--
+ALTER TABLE `products`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `users`
@@ -221,6 +252,24 @@ ALTER TABLE `failed_jobs`
 --
 ALTER TABLE `migrations`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `orders`
+--
+ALTER TABLE `orders`
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `order_items`
+--
+ALTER TABLE `order_items`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT for table `products`
+--
+ALTER TABLE `products`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `users`

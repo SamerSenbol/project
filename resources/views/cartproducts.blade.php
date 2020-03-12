@@ -4,6 +4,8 @@
 
 
 @section('center')
+
+<form method="post" action="{{ route('saveorder') }}">
 <section id="cart_items">
     <div class="container">
         <div class="breadcrumbs">
@@ -12,7 +14,14 @@
                 <li class="active">Shopping Cart</li>
             </ol>
         </div>
+
         <div class="table-responsive cart_info">
+             @if (session('status'))
+                                        <div class="alert alert-success">
+                                            {{ session('status') }}
+                                        </div>
+                                    @endif
+                
             <table class="table table-condensed">
                 <thead>
 
@@ -29,37 +38,40 @@
                 </thead>
                 <tbody>
 
-
-                @foreach($cartItems->items as $item)
+                <?php $newtotal  = 0;?>
+                @foreach($cartItems as $item)
 
 
                 <tr>
                     <td class="cart_product">
-                        <a href=""><img src="{{Storage::disk('local')->url('product_images/'.$item['data']['image'])}}"  width="100" height="100"alt=""></a>
+                        <a href=""><img src="{{Storage::disk('local')->url('product_images/'.$item->image)}}"  width="100" height="100"alt=""></a>
                     </td>
                     <td class="cart_description">
-                        <h4><a href="">{{$item['data']['name']}}</a></h4>
-                        <p>{{$item['data']['description']}} - {{$item['data']['type']}} </p>
-                        <p> id: {{$item['data']['id']}}</p>
+                        <h4><a href="">{{$item->name}}</a></h4>
+                        <p>{{$item->description}} - {{$item->type}} </p>
+                        <p> id: {{$item->id}}</p>
                     </td>
                     <td class="cart_price">
-                        <p>{{$item['data']['price']}}</p>
+                        <p>{{$item->price}}</p>
                     </td>
                     <td class="cart_quantity">
                         <div class="cart_quantity_button">
-                            <a class="cart_quantity_up" href="{{ route('IncreaseSingleProduct',['id' => $item['data']['id']]) }}"> + </a>
-                            <input class="cart_quantity_input" type="text" name="quantity" value="{{$item['quantity']}}" autocomplete="off" size="2">
-                            <a class="cart_quantity_down" href="{{ route('DecreaseSingleProduct',['id' => $item['data']['id']]) }}"> - </a>
+                            <!-- <a class="cart_quantity_up" href="{{ route('IncreaseSingleProduct',['id' => $item->id]) }}"> + </a> -->
+                            <input class="cart_quantity_input" id="{{$item->id}}" data="{{str_replace('Kr ','', $item->price)}}" type="number" name="quantity[{{$item->id}}]" value="1" autocomplete="off" size="2">
+                            <!-- <a class="cart_quantity_down" href="{{ route('DecreaseSingleProduct',['id' => $item->id]) }}"> - </a> -->
                         </div>
                     </td>
                     <td class="cart_total">
-                        <p class="cart_total_price">{{$item['totalSinglePrice']}}</p>
+                        <input type="hidden" name="price_total[{{$item->id}}]" 
+                        value="{{str_replace('Kr ','', $item->price)}}" class="amount_total p{{$item->id}}">
+                        <input type="hidden" name="ids[]" 
+                        value="{{$item->id}}" >
+                        <p class="cart_total_price {{$item->id}}">{{$item->price}}</p>
                     </td>
                     <td class="cart_delete">
-                        <a class="cart_quantity_delete" href="{{ route('DeleteItemFromCart',['id' => $item['data']['id']]) }}"><i class="fa fa-times"></i></a>
+                        <a class="cart_quantity_delete" href="{{ route('DeleteItemFromCart',['id' => $item->id]) }}"><i class="fa fa-times"></i></a>
                     </td>
                 </tr>
-
 
                 @endforeach
 
@@ -80,7 +92,7 @@
         <div class="row">
             <div class="col-sm-6">
                 <div class="chose_area">
-                    <ul class="user_option">
+                    <!-- <ul class="user_option">
                         <li>
                             <input type="checkbox">
                             <label>Use Coupon Code</label>
@@ -93,60 +105,52 @@
                             <input type="checkbox">
                             <label>Estimate Shipping & Taxes</label>
                         </li>
-                    </ul>
+                    </ul> -->
                     <ul class="user_info">
                         <li class="single_field">
-                            <label>Country:</label>
-                            <select>
-                                <option>United States</option>
-                                <option>Bangladesh</option>
-                                <option>UK</option>
-                                <option>India</option>
-                                <option>Pakistan</option>
-                                <option>Ucrane</option>
-                                <option>Canada</option>
-                                <option>Dubai</option>
-                            </select>
-
+                            <label>Name:</label>
+                            <input type="text" name="name" value="" required="required">
                         </li>
                         <li class="single_field">
-                            <label>Region / State:</label>
-                            <select>
-                                <option>Select</option>
-                                <option>Dhaka</option>
-                                <option>London</option>
-                                <option>Dillih</option>
-                                <option>Lahore</option>
-                                <option>Alaska</option>
-                                <option>Canada</option>
-                                <option>Dubai</option>
-                            </select>
-
+                            <label>Email:</label>
+                            <input type="email" name="email" value="" required="required">
                         </li>
                         <li class="single_field zip-field">
                             <label>Zip Code:</label>
-                            <input type="text">
+                            <input type="text" name="zip_code" required="required">
                         </li>
                     </ul>
-                    <a class="btn btn-default update" href="">Get Quotes</a>
-                    <a class="btn btn-default check_out" href="">Continue</a>
+                     <ul class="user_info">
+                        <li >
+                            <label>Phone:</label>
+                            <input type="text" name="phone" value="" required="required">
+                        </li>
+                        <li style="width: 60%;">
+                            <label>Address:</label>
+                            <input type="text" name="address" value=""  required="required">
+                        </li>
+                        
+                    </ul>
                 </div>
             </div>
             <div class="col-sm-6">
                 <div class="total_area">
                     <ul>
 
-                        <li>Quantity<span>{{$cartItems->totalQuantity}}</span></li>
+                        <li>Quantity<span id="display_total_quantity"></span></li>
                         <li>Shipping Cost <span>Free</span></li>
-                        <li>Total <span>{{$cartItems->totalPrice}}</span></li>
+                        <li>Total <span id="display_total_amount"><?= $newtotal; ?></span></li>
                     </ul>
-                    <a class="btn btn-default update" href="">Update</a>
-                    <a class="btn btn-default check_out" href="{{route('checkoutProducts')}}">Check Out</a>
+                    <input type="submit" name="checkout" value="Checkout" class="btn btn-default check_out" style="float: right;">
+                    <input type="hidden" name="display_total_amount" id="display_total_amount_val">
+                     <input type = "hidden" name = "_token" value = "<?php echo csrf_token(); ?>"> 
+                    <div style="clear: both;height: 2px"></div>
                 </div>
             </div>
         </div>
     </div>
 </section><!--/#do_action-->
+</form>
 
 
 @endsection

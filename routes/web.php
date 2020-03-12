@@ -12,7 +12,7 @@
 */
 
 Route::get('/',  ["uses"=>"ProductsController@index", "as"=> "allProducts"]);
-
+Route::post('/saveorder', 'ProductsController@saveorder')->name('saveorder');
 //Men
 Route::get('products/men', ["uses"=>"ProductsController@menProducts", "as"=> "menProducts"]);
 
