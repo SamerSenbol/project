@@ -4,7 +4,7 @@
 @include('layouts.footer')
 
 <script type="text/javascript">
-    
+$(window).load(function() {
     var sum = 0;
     $(".amount_total").each(function(){
         sum += +$(this).val();
@@ -16,6 +16,8 @@
         sumq += +$(this).val();
     });
     $("#display_total_quantity").html(sumq);
+}); 
+   
 
 
 $(".cart_quantity_input").change(function(){

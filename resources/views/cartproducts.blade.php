@@ -40,7 +40,8 @@
 
                 <?php $newtotal  = 0;?>
                 @foreach($cartItems as $item)
-
+                
+                <?php $newtotal += str_replace('Kr ','', $item->price);?>
 
                 <tr>
                     <td class="cart_product">
@@ -142,7 +143,7 @@
                         <li>Total <span id="display_total_amount"><?= $newtotal; ?></span></li>
                     </ul>
                     <input type="submit" name="checkout" value="Checkout" class="btn btn-default check_out" style="float: right;">
-                    <input type="hidden" name="display_total_amount" id="display_total_amount_val">
+                    <input type="hidden" name="display_total_amount" id="display_total_amount_val" value="<?= $newtotal; ?>">
                      <input type = "hidden" name = "_token" value = "<?php echo csrf_token(); ?>"> 
                     <div style="clear: both;height: 2px"></div>
                 </div>
