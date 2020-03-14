@@ -184,7 +184,7 @@
                             <div class="single-products">
                                 <div class="productinfo text-center">
 
-                                    <img src="{{Storage::disk('local')->url('product_images/'.$product->image)}}" alt="" />
+                                    <img src="{{ asset('storage/app/public/product_images/'.$product->image) }}" alt="" />
                                     <h2>{{$product->price}}</h2>
                                     <p>{{ $product->name }}</p>
                                     <p>{{$product->description}}</p>
