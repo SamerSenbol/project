@@ -73,7 +73,7 @@ CREATE TABLE `orders` (
   `price` float DEFAULT NULL,
   `name` text NOT NULL,
   `address` text NOT NULL,
-  `phone` int(11) NOT NULL,
+  `phone` varchar(100) NOT NULL,
   `zip` varchar(100) NOT NULL,
   `email` varchar(50) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
@@ -83,10 +83,14 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`order_id`, `date`, `status`, `price`, `name`, `address`, `phone`, `zip`, `email`) VALUES
-(1, '2020-03-11 08:02:38', NULL, 113.9, 'asd', 'sad', 123, 'asd', 'asd@mil.com'),
-(2, '2020-03-11 08:05:08', 'Booked', 113.9, 'asd', 'sad', 123, 'asd', 'asd@mil.com'),
-(3, '2020-03-11 08:05:33', 'Booked', 113.9, 'asd', 'sad', 123, 'asd', 'asd@mil.com'),
-(4, '2020-03-11 08:07:40', 'Booked', 113.9, 'asd', 'sad', 123, 'asd', 'asd@mil.com');
+(1, '2020-03-11 08:02:38', NULL, 113.9, 'asd', 'sad', '123', 'asd', 'asd@mil.com'),
+(2, '2020-03-11 08:05:08', 'Booked', 113.9, 'asd', 'sad', '123', 'asd', 'asd@mil.com'),
+(3, '2020-03-11 08:05:33', 'Booked', 113.9, 'asd', 'sad', '123', 'asd', 'asd@mil.com'),
+(4, '2020-03-11 08:07:40', 'Booked', 113.9, 'asd', 'sad', '123', 'asd', 'asd@mil.com'),
+(5, '2020-03-11 08:18:09', 'Booked', 70.35, 'Test', 'test address', '128374', '284757', 'test@mail.com'),
+(6, '2020-03-12 09:08:24', 'Booked', 113.9, 'Test CUSTOMER', 'TEST ADDRESS', '249586', '133748', 'test@mail.com'),
+(7, '2020-03-12 09:14:43', 'Booked', 23.45, 'test', 'lextorps', '720203140', '1234567', 'samer@exampel.com'),
+(8, '2020-03-12 09:30:23', 'Booked', 56.95, 'test', 'lextorps', '0720203140', '1234567', 'samer@exampel.com');
 
 -- --------------------------------------------------------
 
@@ -113,7 +117,13 @@ INSERT INTO `order_items` (`id`, `item_id`, `order_id`, `item_price`, `quantity`
 (3, 1, 3, 46.9, 2, '46.9'),
 (4, 2, 3, 67, 2, '67'),
 (5, 1, 4, 46.9, 2, '46.9'),
-(6, 2, 4, 67, 2, '67');
+(6, 2, 4, 67, 2, '67'),
+(7, 1, 5, 70.35, 3, '70.35'),
+(8, 1, 6, 46.9, 2, '46.9'),
+(9, 2, 6, 67, 2, '67'),
+(10, 1, 7, 23.45, 1, '23.45'),
+(11, 1, 8, 23.45, 1, '23.45'),
+(12, 2, 8, 33.5, 1, '33.5');
 
 -- --------------------------------------------------------
 
@@ -162,8 +172,10 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`id`, `name`, `description`, `price`, `type`, `image`) VALUES
-(1, 'White shirt', 'wome shirt', 23.45, 0, 'shirt1.jpg'),
-(2, 'Black shirt', 'men shirt', 33.5, 0, 'shirt2.jpg');
+(1, 'White shirt', 'wome shirt', 499, 0, 'Women.jpg'),
+(2, 'Black shirt', 'men shirt', 349, 0, 'Men.jpg'),
+(3, 'Accessories ', 'Very nice and modern', 119, 0, 'accessories1.jpg'),
+(4, 'Accessories', 'This is very nice accessories', 85, 0, 'accessories2.jpg');
 
 -- --------------------------------------------------------
 
@@ -188,7 +200,10 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `password`, `admin`, `updated_at`, `created_at`, `remember_token`, `admin_level`) VALUES
-(1, 'Administrator', 'admin@mail.com', '$2y$10$OWnOfhKdwlb6AxXMnCgXBehFMpkxSmDHW6y/iyGk3x.6muG6XvY1K', 1, '2020-03-09 12:41:28', '2020-03-09 12:41:28', NULL, 0);
+(1, 'Administrator', 'admin@mail.com', '$2y$10$OWnOfhKdwlb6AxXMnCgXBehFMpkxSmDHW6y/iyGk3x.6muG6XvY1K', 1, '2020-03-09 12:41:28', '2020-03-09 12:41:28', NULL, 0),
+(2, 'Test', 'test@mail.com', '$2y$10$lm/Io3yk0Jlf7ICxj4bcHuClgVWgeH7UWaGvfd/kvGXQvYq1SHfV2', 0, '2020-03-14 17:11:52', '2020-03-12 20:01:38', NULL, 0),
+(3, 'SAMER', 'SAMER@TEST.COM', '$2y$10$5DeQsiGQufeTwsOjNZ89YO1GTtfeklD82GjnSXBZVKwMRwWeVhQ4K', 1, '2020-03-12 20:13:17', '2020-03-12 20:13:17', NULL, 0),
+(4, 'test1', 'same2r@exampel.com', '$2y$10$7AKJwf4XGl5idWa/NatgB.wtIK/YX8ztVdMt9rpmWiXk5GMi3ysVK', 0, '2020-03-14 18:13:20', '2020-03-14 16:08:05', NULL, 0);
 
 --
 -- Indexes for dumped tables
@@ -257,25 +272,25 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

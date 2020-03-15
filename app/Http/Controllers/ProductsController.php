@@ -57,8 +57,10 @@ $today = date("Y-m-d h:i:s");
                         );
                 }
             }
-        session()->put('cartids', '');
-        return redirect('cart')->with('status', 'Your order booked Successfully!');
+            session()->put('rowid', $order);
+            session()->put('cartids', '');
+
+        return redirect('payment');
 
         }
     }
@@ -116,6 +118,41 @@ $today = date("Y-m-d h:i:s");
         }else{
             return redirect()->route("allProducts");
         }
+
+    }
+
+    public function showpayments(){
+
+        $rowid = Session::get('rowid');
+        $cart = DB::table('orders')->where('order_id', $rowid)->first();
+        //cart is not empty
+        if($cart){
+            return view('payments',['cart'=> $cart]);
+
+         //cart is empty
+        }else{
+            return redirect()->route("allProducts");
+        }
+
+    }
+
+    public function showverify(){
+
+        $rowid = Session::get('rowid');
+        $update = \DB::table('orders')->where('order_id', $rowid)->update(
+                        array(
+                        'status'     =>  'Paid', 
+                 ));
+
+        session()->put('rowid', '');
+        
+     return  redirect('thanks')->with('status', 'Your order booked Successfully!');
+
+    }
+
+    public function showthanks(){
+
+        return view('thanks');
 
     }
 

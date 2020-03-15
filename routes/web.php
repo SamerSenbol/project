@@ -30,6 +30,9 @@ Route::get('product/addToCart/{id}', ['uses'=>'ProductsController@addProductToCa
 
 //show cart items
 Route::get('cart', ["uses"=>"ProductsController@showCart", "as"=>"cartproducts"]);
+Route::get('payments', ["uses"=>"ProductsController@showpayments", "as"=>"payments"]);
+Route::get('thanks', ["uses"=>"ProductsController@showthanks", "as"=>"thanks"]);
+Route::get('verify', ["uses"=>"ProductsController@showverify", "as"=>"verify"]);
 
 //delete item from cart
 Route::get('product/deleteItemFromCart/{id}',['uses'=>'ProductsController@deleteItemFromCart','as'=>'DeleteItemFromCart']);
