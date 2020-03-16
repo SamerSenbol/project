@@ -60,7 +60,7 @@ $today = date("Y-m-d h:i:s");
             session()->put('rowid', $order);
             session()->put('cartids', '');
 
-        return redirect('payment');
+        return redirect('payments');
 
         }
     }
