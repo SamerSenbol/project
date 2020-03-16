@@ -45,7 +45,7 @@
 
                 <tr>
                     <td class="cart_product">
-                        <a href=""><img src="{{Storage::disk('local')->url('product_images/'.$item->image)}}"  width="100" height="100"alt=""></a>
+                        <a href=""><img src="{{ asset('storage/app/public/product_images/'.$item->image) }}"  width="100" height="100"alt=""></a>
                     </td>
                     <td class="cart_description">
                         <h4><a href="">{{$item->name}}</a></h4>
