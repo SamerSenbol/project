@@ -10,7 +10,7 @@
 
 ### And you can see the project on live host on the linke:
 
-http://snintegratedsolutions.com/shopping/
+http://htcwebsolutions.com/
 
 ### My Githup linke:
 
